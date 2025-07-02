@@ -17,17 +17,16 @@ export const MainContent = () => {
     const [adiciones, setAdiciones] = useState<Adicion[] | null>(null);
     const [selectedAdiciones, setSelectedAdiciones] = useState<Adicion[]>([]);
     const [selectedAcompanantes, setSelectedAcompanantes] = useState<Producto[]>([]);
-
-
+    const [searchTerm, setSearchTerm] = useState("");
 
     const cargarAdiciones = async () => {
         try {
             const getAllAdiciones = await adicionesService.getAll();
             setAdiciones(getAllAdiciones);
         } catch (error) {
-            console.log("error", error)
+            console.log("error", error);
         }
-    }
+    };
 
     useEffect(() => {
         const cargarProductos = async () => {
@@ -45,7 +44,6 @@ export const MainContent = () => {
     }, []);
 
     const createPedido = () => {
-
         if (!pedido) {
             setPedido({
                 numeroPedido: "223",
@@ -56,10 +54,14 @@ export const MainContent = () => {
                 items: [],
                 direccion: "",
                 comentario: ""
-            })
+            });
         }
+    };
 
-    }
+    const productosFiltrados = productos.filter((producto) =>
+        producto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <main className="flex-1 bg-gray-50 p-6 overflow-y-auto">
             {user ? (
@@ -69,8 +71,10 @@ export const MainContent = () => {
                         <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
                         <input
                             type="text"
-                            placeholder="What do you want eat today..."
+                            placeholder="Que quieres hoy "
                             className="w-full border border-gray-300 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-400"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
                 </div>
@@ -82,34 +86,13 @@ export const MainContent = () => {
                 <div>
                     <h3 className="text-lg font-bold mb-1">Obtén un cupón de descuento de hasta el 20%</h3>
                     <p className="text-xs w-2/3">Aprovecha esta promoción exclusiva por tiempo limitado.</p>
-
                 </div>
                 <img src="https://i.ibb.co/sCcbB6q/discount-lady.png" alt="Descuento" className="h-20" />
             </div>
 
-
-            {/*<section className="mb-8">
-                <div className="flex justify-between items-center mb-4">
-                    <h4 className="text-md font-semibold text-gray-800">Category</h4>
-                    <button className="text-xs text-yellow-500 font-medium">View all</button>
-                </div>
-                
-                    
-                      <div className="grid grid-cols-6 gap-4 text-center text-sm">
-                    {["Hamburguesa", "Gaseosa", "Pizza", "Pollo", "Postres", "Otros"].map((cat) => (
-                        <div key={cat} className="bg-white p-4 rounded-md shadow hover:shadow-md cursor-pointer">
-                            <div className="w-10 h-10 mx-auto bg-yellow-100 rounded-full mb-2" />
-                            <span>{cat}</span>
-                        </div>
-                    ))}
-                </div>
-                    
-            </section>
-             */   }
-
             <section className="mb-8">
                 <div className="flex justify-between items-center mb-4">
-                    <h4 className="text-md font-semibold text-gray-800">Popular Dishes</h4>
+                    <h4 className="text-md font-semibold text-gray-800">Productos</h4>
                     <button className="text-xs text-yellow-500 font-medium">View all</button>
                 </div>
 
@@ -119,10 +102,13 @@ export const MainContent = () => {
                     <p className="text-sm text-red-500">{error}</p>
                 ) : (
                     <div className="grid grid-cols-3 gap-4">
-                        {productos.map((producto) => (
+                        {productosFiltrados.map((producto) => (
                             <div
                                 key={producto.id}
-                                onClick={() => { setSelectedProduct(producto); createPedido() }}
+                                onClick={() => {
+                                    setSelectedProduct(producto);
+                                    createPedido();
+                                }}
                                 className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition relative cursor-pointer"
                             >
                                 <div
@@ -157,7 +143,6 @@ export const MainContent = () => {
                             <X size={24} />
                         </button>
 
-                        {/* Imagen + info del producto */}
                         <div className="grid grid-cols-2 gap-6">
                             <div className="rounded-lg overflow-hidden">
                                 <img
@@ -171,7 +156,6 @@ export const MainContent = () => {
                                     alt={selectedProduct.nombre}
                                     className="w-full h-64 object-cover rounded-md shadow"
                                 />
-
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-800 mb-1 uppercase tracking-wide">
@@ -180,7 +164,6 @@ export const MainContent = () => {
                                 <p className="text-gray-600 mb-2 text-sm">{selectedProduct.descripcion}</p>
                                 <p className="text-red-600 font-extrabold text-xl mb-4">${selectedProduct.precio}</p>
 
-                                {/* Adiciones */}
                                 <div className="mb-4">
                                     <h3 className="text-sm font-bold text-gray-700 uppercase mb-2">Adiciones</h3>
                                     <div className="flex flex-col gap-2 text-sm text-gray-800">
@@ -188,9 +171,8 @@ export const MainContent = () => {
                                             <label key={i} className="flex gap-10">
                                                 <input
                                                     type="checkbox"
-                                                    className="mr-2 "
+                                                    className="mr-2"
                                                     checked={selectedAdiciones.some((a) => a.id === adicion.id)}
-
                                                     onChange={(e) => {
                                                         const checked = e.target.checked;
                                                         setSelectedAdiciones((prev) =>
@@ -199,17 +181,14 @@ export const MainContent = () => {
                                                                 : prev.filter((a) => a.id !== adicion.id)
                                                         );
                                                     }}
-
                                                 />
                                                 <p>{adicion.nombre}</p>
                                                 <p>{adicion.precio}</p>
                                             </label>
                                         ))}
-
                                     </div>
                                 </div>
 
-                                {/* Acompañantes */}
                                 <div className="mb-6">
                                     <h3 className="text-sm font-bold text-gray-700 uppercase mb-2">Acompañantes</h3>
                                     <div className="flex flex-col gap-2 text-sm text-gray-800">
@@ -232,7 +211,6 @@ export const MainContent = () => {
                                                 <p>${pro.precio}</p>
                                             </label>
                                         ))}
-
                                     </div>
                                 </div>
 
@@ -250,7 +228,6 @@ export const MainContent = () => {
                                             foto: selectedProduct.foto
                                         });
 
-
                                         setSelectedProduct(null);
                                         setSelectedAdiciones([]);
                                     }}
@@ -258,13 +235,11 @@ export const MainContent = () => {
                                 >
                                     Agregar al pedido
                                 </button>
-
                             </div>
                         </div>
                     </Dialog.Panel>
                 )}
             </Dialog>
-
         </main>
     );
 };
