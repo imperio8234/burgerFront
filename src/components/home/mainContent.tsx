@@ -80,18 +80,22 @@ export const MainContent = () => {
 
             <div className="bg-yellow-400 rounded-xl p-6 flex justify-between items-center text-white mb-8 mt-6">
                 <div>
-                    <h3 className="text-lg font-bold mb-1">Get Discount Voucher Up To 20%</h3>
-                    <p className="text-xs w-2/3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3 className="text-lg font-bold mb-1">Obtén un cupón de descuento de hasta el 20%</h3>
+                    <p className="text-xs w-2/3">Aprovecha esta promoción exclusiva por tiempo limitado.</p>
+
                 </div>
-                <img src="https://i.ibb.co/sCcbB6q/discount-lady.png" alt="Discount" className="h-20" />
+                <img src="https://i.ibb.co/sCcbB6q/discount-lady.png" alt="Descuento" className="h-20" />
             </div>
 
-            <section className="mb-8">
+
+            {/*<section className="mb-8">
                 <div className="flex justify-between items-center mb-4">
                     <h4 className="text-md font-semibold text-gray-800">Category</h4>
                     <button className="text-xs text-yellow-500 font-medium">View all</button>
                 </div>
-                <div className="grid grid-cols-6 gap-4 text-center text-sm">
+                
+                    
+                      <div className="grid grid-cols-6 gap-4 text-center text-sm">
                     {["Hamburguesa", "Gaseosa", "Pizza", "Pollo", "Postres", "Otros"].map((cat) => (
                         <div key={cat} className="bg-white p-4 rounded-md shadow hover:shadow-md cursor-pointer">
                             <div className="w-10 h-10 mx-auto bg-yellow-100 rounded-full mb-2" />
@@ -99,7 +103,9 @@ export const MainContent = () => {
                         </div>
                     ))}
                 </div>
+                    
             </section>
+             */   }
 
             <section className="mb-8">
                 <div className="flex justify-between items-center mb-4">
@@ -155,10 +161,17 @@ export const MainContent = () => {
                         <div className="grid grid-cols-2 gap-6">
                             <div className="rounded-lg overflow-hidden">
                                 <img
-                                    src={selectedProduct.foto}
+                                    src={
+                                        typeof selectedProduct.foto === "string"
+                                            ? selectedProduct.foto
+                                            : selectedProduct.foto
+                                                ? URL.createObjectURL(selectedProduct.foto)
+                                                : ""
+                                    }
                                     alt={selectedProduct.nombre}
                                     className="w-full h-64 object-cover rounded-md shadow"
                                 />
+
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-800 mb-1 uppercase tracking-wide">

@@ -18,8 +18,8 @@ export const Sidebar = () => {
     const { user } = useAuth();
     const [openAdminModal, setOpenAdminModal] = useState(false);
     const [openModalPedidos, setOpenModalPedidos] = useState(false);
+    const [activeItem, setActiveItem] = useState("Dashboard");
     const rol = user?.user?.rol;
-    console.log("user", rol)
 
     return (
         <aside className="w-72 h-screen bg-white shadow-md p-6 flex flex-col justify-between">
@@ -31,42 +31,67 @@ export const Sidebar = () => {
 
                 {/* Menu */}
                 <nav className="flex flex-col gap-4 text-gray-600 text-sm">
-                    <SidebarItem icon={<LayoutDashboard size={18} />} label="Dashboard" active />
+                    {/*<SidebarItem
+                        icon={<LayoutDashboard size={18} />}
+                        label="Dashboard"
+                        active={activeItem === "Dashboard"}
+                        onClick={() => setActiveItem("Dashboard")}
+                    />/*}
 
-                    {/* Visible solo para admin */}
-              
-
-                    {/* Visible para todos los roles */}
-                    <SidebarItem icon={<Heart size={18} />} label="Favorite" />
-                    <SidebarItem icon={<MessageCircle size={18} />} label="Message" />
+                    {/*<SidebarItem
+                        icon={<Heart size={18} />}
+                        label="Favorite"
+                        active={activeItem === "Favorite"}
+                        onClick={() => setActiveItem("Favorite")}
+                    />*/}
+                   {/* <SidebarItem
+                        icon={<MessageCircle size={18} />}
+                        label="Message"
+                        active={activeItem === "Message"}
+                        onClick={() => setActiveItem("Message")}
+                    />*/}
                     <SidebarItem
                         icon={<Clock size={18} />}
                         label="Order History"
-                        onClick={() => setOpenModalPedidos(true)}
+                        active={activeItem === "Order History"}
+                        onClick={() => {
+                            setActiveItem("Order History");
+                            setOpenModalPedidos(true);
+                        }}
                     />
-                    <SidebarItem icon={<FileText size={18} />} label="Bills" />
-                    <SidebarItem icon={<Settings size={18} />} label="Setting" />
-                          {rol === "admin" && (
+                   {/*} <SidebarItem
+                        icon={<FileText size={18} />}
+                        label="Bills"
+                        active={activeItem === "Bills"}
+                        onClick={() => setActiveItem("Bills")}
+                    />*/}
+                    <SidebarItem
+                        icon={<Settings size={18} />}
+                        label="Setting"
+                        active={activeItem === "Setting"}
+                        onClick={() => setActiveItem("Setting")}
+                    />
+
+                    {rol === "admin" && (
                         <>
-                            <SidebarItem icon={<ShoppingCart size={18} />} label="Food Order" />
+                            <SidebarItem
+                                icon={<ShoppingCart size={18} />}
+                                label="Food Order"
+                                active={activeItem === "Food Order"}
+                                onClick={() => setActiveItem("Food Order")}
+                            />
                             <SidebarItem
                                 icon={<PlusCircle size={18} />}
                                 label="Administrar"
-                                onClick={() => setOpenAdminModal(true)}
+                                active={activeItem === "Administrar"}
+                                onClick={() => {
+                                    setActiveItem("Administrar");
+                                    setOpenAdminModal(true);
+                                }}
                             />
                         </>
                     )}
                 </nav>
-            </div>
-
-            {/* Upgrade Box */}
-            <div className="mt-10 bg-gradient-to-br from-yellow-400 to-yellow-500 text-white p-4 rounded-xl text-center shadow">
-                <p className="text-sm font-medium leading-5">
-                    Upgrade your Account to Get Free Voucher
-                </p>
-                <button className="mt-3 bg-white text-yellow-600 text-xs font-semibold px-4 py-1.5 rounded-md shadow">
-                    Upgrade
-                </button>
             </div>
 
             {/* Modales */}
@@ -95,8 +120,6 @@ export const Sidebar = () => {
     );
 };
 
-
-
 type SidebarItemProps = {
     icon: React.ReactNode;
     label: string;
@@ -109,8 +132,8 @@ const SidebarItem = ({ icon, label, active = false, onClick }: SidebarItemProps)
         <div
             onClick={onClick}
             className={`flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-all
-        ${active ? "bg-yellow-400 text-white font-semibold" : "hover:bg-gray-100"}
-      `}
+                ${active ? "bg-yellow-400 text-white font-semibold" : "hover:bg-gray-100"}
+            `}
         >
             {icon}
             <span>{label}</span>

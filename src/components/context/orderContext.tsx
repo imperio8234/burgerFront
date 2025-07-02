@@ -13,7 +13,7 @@ export interface PedidoItemDto {
     item_id: string;
     nombre: string;
     adiciones: Adicion[];
-    foto: string;
+    foto: File | string;
     acompanantes: Producto[];
 }
 

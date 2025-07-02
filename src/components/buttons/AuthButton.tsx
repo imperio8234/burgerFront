@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { LogIn, User, X } from "lucide-react";
+import { LogIn, X} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { userService } from "../../services/user/userServices";
 import { useAuth } from "../context/AuthContext";

@@ -5,7 +5,7 @@ export interface CreateUsuarioDto {
   correo: string;
   contraseña: string;
   rol: "admin" | "cliente";
-  foto?: string;
+  foto?: File | string; 
 }
 
 export interface Usuario {
@@ -13,16 +13,29 @@ export interface Usuario {
   nombre: string;
   correo: string;
   rol: "admin" | "cliente";
-  foto?: string;
+  foto?: string | File;
 }
 
 export const userService = {
   /**
-   * Registrar nuevo usuario
+   * Registrar nuevo usuario con imagen
    */
   async register(data: CreateUsuarioDto): Promise<Usuario> {
     try {
-      const res = await backApi.post("/user", data);
+      const formData = new FormData();
+      formData.append("nombre", data.nombre);
+      formData.append("correo", data.correo);
+      formData.append("contraseña", data.contraseña);
+      formData.append("rol", data.rol);
+      if (data.foto) {
+        formData.append("foto", data.foto);
+      }
+
+      const res = await backApi.post("/user", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return res.data;
     } catch (error: any) {
       throw new Error(error?.response?.data?.message || "Error al registrar usuario");
@@ -46,17 +59,11 @@ export const userService = {
     }
   },
 
-  /**
-   * Cerrar sesión
-   */
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
   },
 
-  /**
-   * Obtener todos los usuarios
-   */
   async getAll(): Promise<Usuario[]> {
     try {
       const res = await backApi.get("/user");
@@ -66,9 +73,6 @@ export const userService = {
     }
   },
 
-  /**
-   * Obtener usuario por ID
-   */
   async getById(id: string): Promise<Usuario> {
     try {
       const res = await backApi.get(`/user/${id}`);
@@ -78,21 +82,26 @@ export const userService = {
     }
   },
 
-  /**
-   * Actualizar usuario
-   */
   async update(id: string, data: Partial<CreateUsuarioDto>): Promise<Usuario> {
     try {
-      const res = await backApi.put(`/user/${id}`, data);
+      const formData = new FormData();
+      if (data.nombre) formData.append("nombre", data.nombre);
+      if (data.correo) formData.append("correo", data.correo);
+      if (data.contraseña) formData.append("contraseña", data.contraseña);
+      if (data.rol) formData.append("rol", data.rol);
+      if (data.foto) formData.append("foto", data.foto);
+
+      const res = await backApi.put(`/user/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return res.data;
     } catch (error: any) {
       throw new Error(error?.response?.data?.message || "Error al actualizar usuario");
     }
   },
 
-  /**
-   * Eliminar usuario
-   */
   async delete(id: string): Promise<{ message: string }> {
     try {
       const res = await backApi.delete(`/user/${id}`);

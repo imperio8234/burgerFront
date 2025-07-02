@@ -1,9 +1,7 @@
 // src/services/pedidos/pedidoService.ts
 
 import type { CreatePedidoDto } from "../../components/context/orderContext";
-import type { CreateAdicionDto } from "../adiciones/adicionesServices";
 import { backApi } from "../baseUrl";
-import type { CreateProductoDto } from "../productos/productoService";
 export type EstadoPedido = "cancelado" | "entregado" | "pendiente";
 export type ItemTipo = "producto" | "servicio";
 
@@ -38,6 +36,10 @@ const RESOURCE = "/pedidos";
 export const pedidoService = {
     getAll: async (): Promise<Pedido[]> => {
         const res = await backApi.get(RESOURCE);
+        return res.data;
+    },
+    getAllByUser: async (idUser: string): Promise<Pedido[]> => {
+        const res = await backApi.get(`${RESOURCE}/user/${idUser}`);
         return res.data;
     },
 

@@ -38,7 +38,7 @@ export const AdminPanel = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 if (tipo === "producto") {
-                    setProducto({ ...producto, foto: file.name });
+                    setProducto({ ...producto, foto: file }); 
                     setPreviewFotoProducto(reader.result as string);
                 } else {
                     setAdicion({ ...adicion, foto: file.name });
@@ -98,7 +98,7 @@ export const AdminPanel = () => {
             console.log("actualizando")
             await productoService.update(editandoProducto.id, producto);
         } else {
-            console.log("creando")
+            console.log("creando", producto)
             await productoService.create(producto);
         }
         fetchData();
@@ -248,7 +248,17 @@ export const AdminPanel = () => {
                                 {productos.map((p) => (
                                     <tr key={p.id} className="hover:bg-gray-50 transition">
                                         <td className="px-4 py-3 flex items-center gap-2">
-                                            <img src={p.foto || '/placeholder.png'} alt={p.nombre} className="w-6 h-6 rounded-full object-cover" />
+                                            <img
+                                                src={
+                                                    typeof p.foto === "string"
+                                                        ? p.foto
+                                                        : p.foto instanceof File
+                                                            ? URL.createObjectURL(p.foto)
+                                                            : "/placeholder.png"
+                                                }
+                                                alt={p.nombre}
+                                                className="w-6 h-6 rounded-full object-cover"
+                                            />
                                             {p.nombre}
                                         </td>
                                         <td className="px-4 py-3">${p.precio.toFixed(2)}</td>

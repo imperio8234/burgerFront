@@ -2,14 +2,21 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { FileText, Clock } from "lucide-react";
 import { pedidoService } from "../../services/pedidos/pedidosServices";
+import { useAuth } from "../context/AuthContext";
 
 export const ModalPedidos = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
     const [pedidos, setPedidos] = useState<any[]>([]);
     const [vista, setVista] = useState<"historial" | "todos">("historial");
+    const {user} = useAuth();
 
     useEffect(() => {
         if (open) {
-            pedidoService.getAll().then(setPedidos);
+            if (user.user.rol == "admin") {
+                pedidoService.getAll().then(setPedidos);
+            }else {
+                pedidoService.getAllByUser(user.user.sub).then(setPedidos);
+
+            }
         }
     }, [open]);
     console.log("pedidos", pedidos)

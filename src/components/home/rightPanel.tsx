@@ -15,7 +15,6 @@ import { useState } from "react";
 import { pedidoService } from "../../services/pedidos/pedidosServices";
 import { showNotification } from "../buttons/notify";
 import { emailService } from "@/services/emailServices/emailServices";
-import { generarCodigoVerificacion } from "@/util/util";
 
 export const RightPanel = () => {
     const { user, logout } = useAuth();
@@ -52,11 +51,11 @@ export const RightPanel = () => {
             };
 
             const crearPedi = await pedidoService.create(pedidoFinal);
-            await emailService.enviarCorreoBienvenida( {
+            await emailService.enviarCorreoBienvenida({
                 correo: user.user.correo,
                 nombre: user.user.nombre,
-                pedido: pedidoFinal 
-                
+                pedido: pedidoFinal
+
             });
 
             console.log("pedido", crearPedi);
@@ -263,10 +262,17 @@ export const RightPanel = () => {
                             {pedido.items.map((item, index) => (
                                 <div key={item.item_id || index} className="flex gap-4 items-start border-b pb-4">
                                     <img
-                                        src={item.foto || "https://via.placeholder.com/60"}
+                                        src={
+                                            typeof item.foto === "string"
+                                                ? item.foto
+                                                : item.foto instanceof File
+                                                    ? URL.createObjectURL(item.foto)
+                                                    : "https://via.placeholder.com/60"
+                                        }
                                         alt={item.nombre}
                                         className="w-14 h-14 rounded-lg object-cover border"
                                     />
+
                                     <div className="flex-1 text-sm">
                                         <p className="font-semibold text-gray-800">{item.nombre}</p>
                                         <p className="text-gray-600">Cantidad: {item.cantidad}</p>
