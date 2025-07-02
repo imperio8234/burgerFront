@@ -16,7 +16,7 @@ export const AdminPanel = () => {
         correo: "",
         rol: "cliente",
         foto: "",
-        contraseña: ""
+        contrasena: ""
     });
 
     const [productos, setProductos] = useState<Producto[]>([]);
@@ -158,7 +158,7 @@ export const AdminPanel = () => {
             setPreviewFotoAdicion(item.foto || null);
         } else if (seccion === "usuarios" && item) {
             setEditandoUsuario(item);
-            setNuevoUsuario({ ...item, contraseña: "" });
+            setNuevoUsuario({ ...item, contrasena: "" });
             setPreviewFotoUsuario(item.foto || null);
         }
         setShowModal(true);
@@ -171,7 +171,7 @@ export const AdminPanel = () => {
         setEditandoUsuario(null);
         setProducto({ nombre: "", ingredientes: "", precio: 0, descripcion: "", tipo: "", foto: "" });
         setAdicion({ nombre: "", precio: 0, tipo: "producto", foto: "" });
-        setNuevoUsuario({ nombre: "", correo: "", rol: "cliente", foto: "", contraseña: "" });
+        setNuevoUsuario({ nombre: "", correo: "", rol: "cliente", foto: "", contrasena: "" });
         setPreviewFotoProducto(null);
         setPreviewFotoAdicion(null);
         setPreviewFotoUsuario(null);
@@ -193,7 +193,7 @@ export const AdminPanel = () => {
                 >
                     <Sandwich className="w-6 h-6 mb-1" />
                     <span>Productos</span>
-                    <span className="text-xs">12 en stock</span>
+                    <span className="text-xs"> en stock</span>
                 </button>
 
                 <button
@@ -205,7 +205,7 @@ export const AdminPanel = () => {
                 >
                     <PlusCircle className="w-6 h-6 mb-1" />
                     <span>Adiciones</span>
-                    <span className="text-xs">12 en stock</span>
+                    <span className="text-xs"> en stock</span>
                 </button>
 
                 <button
@@ -217,7 +217,7 @@ export const AdminPanel = () => {
                 >
                     <Users className="w-6 h-6 mb-1" />
                     <span>Usuarios</span>
-                    <span className="text-xs">12 en stock</span>
+                    <span className="text-xs"> en stock</span>
                 </button>
             </div>
 

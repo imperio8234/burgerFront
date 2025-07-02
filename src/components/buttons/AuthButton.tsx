@@ -9,7 +9,7 @@ import { useAuth } from "../context/AuthContext";
 type AuthForm = {
   nombre?: string;
   correo: string;
-  contraseña: string;
+  contrasena: string;
   rol?: "admin" | "cliente";
   foto?: string;
 };
@@ -37,14 +37,14 @@ export const AuthButton = () => {
     setLoading(true);
     try {
       if (tab === "login") {
-       const user = await userService.login(data.correo, data.contraseña);
+       const user = await userService.login(data.correo, data.contrasena);
         login(user)
         alert("Sesión iniciada correctamente");
       } else {
         await userService.register({
           nombre: data.nombre!,
           correo: data.correo,
-          contraseña: data.contraseña,
+          contrasena: data.contrasena,
           rol: data.rol!,
           foto: data.foto,
         });
@@ -111,12 +111,12 @@ export const AuthButton = () => {
             {errors.correo && <p className="text-red-500 text-xs">Correo requerido</p>}
 
             <input
-              {...register("contraseña", { required: true })}
+              {...register("contrasena", { required: true })}
               placeholder="Contraseña"
               type="password"
               className="w-full border px-4 py-2 rounded"
             />
-            {errors.contraseña && <p className="text-red-500 text-xs">Contraseña requerida</p>}
+            {errors.contrasena && <p className="text-red-500 text-xs">Contraseña requerida</p>}
 
             {tab === "register" && (
               <>

@@ -3,7 +3,7 @@ import { backApi } from "../baseUrl";
 export interface CreateUsuarioDto {
   nombre: string;
   correo: string;
-  contraseña: string;
+  contrasena: string;
   rol: "admin" | "cliente";
   foto?: File | string; 
 }
@@ -23,9 +23,10 @@ export const userService = {
   async register(data: CreateUsuarioDto): Promise<Usuario> {
     try {
       const formData = new FormData();
+      console.log("envio de contrasena", data)
       formData.append("nombre", data.nombre);
       formData.append("correo", data.correo);
-      formData.append("contraseña", data.contraseña);
+      formData.append("contrasena", data.contrasena);
       formData.append("rol", data.rol);
       if (data.foto) {
         formData.append("foto", data.foto);
@@ -45,9 +46,9 @@ export const userService = {
   /**
    * Iniciar sesión
    */
-  async login(correo: string, contraseña: string): Promise<{ access_token: string; user: Usuario }> {
+  async login(correo: string, contrasena: string): Promise<{ access_token: string; user: Usuario }> {
     try {
-      const res = await backApi.post("/user/login", { correo, contraseña });
+      const res = await backApi.post("/user/login", { correo, contrasena });
       const { access_token, user } = res.data;
 
       localStorage.setItem("token", access_token);
@@ -87,7 +88,7 @@ export const userService = {
       const formData = new FormData();
       if (data.nombre) formData.append("nombre", data.nombre);
       if (data.correo) formData.append("correo", data.correo);
-      if (data.contraseña) formData.append("contraseña", data.contraseña);
+      if (data.contrasena) formData.append("contrasena", data.contrasena);
       if (data.rol) formData.append("rol", data.rol);
       if (data.foto) formData.append("foto", data.foto);
 

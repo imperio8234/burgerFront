@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const ModalRenovarToken = ({ onClose }: { onClose: () => void }) => {
   const [correo, setCorreo] = useState("");
-  const [contraseña, setContraseña] = useState("");
+  const [contrasena, setContraseña] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +13,7 @@ const ModalRenovarToken = ({ onClose }: { onClose: () => void }) => {
     setError("");
 
     try {
-      await userService.login(correo, contraseña);
+      await userService.login(correo, contrasena);
       setLoading(false);
       window.location.reload(); // recarga la app con el nuevo token
     } catch (err: any) {
@@ -37,7 +37,7 @@ const ModalRenovarToken = ({ onClose }: { onClose: () => void }) => {
         />
         <input
           type="password"
-          value={contraseña}
+          value={contrasena}
           onChange={(e) => setContraseña(e.target.value)}
           placeholder="Contraseña"
           className="w-full mb-3 px-3 py-2 border rounded-md text-sm"
