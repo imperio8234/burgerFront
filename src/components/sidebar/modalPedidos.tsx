@@ -10,16 +10,15 @@ export const ModalPedidos = ({ open, onClose }: { open: boolean; onClose: () => 
     const {user} = useAuth();
 
     useEffect(() => {
-        if (open) {
-            if (user.user.rol == "admin") {
+        if (open && user) {
+            if (user?.user?.rol == "admin") {
                 pedidoService.getAll().then(setPedidos);
             }else {
-                pedidoService.getAllByUser(user.user.sub).then(setPedidos);
+                pedidoService.getAllByUser(user?.user?.sub).then(setPedidos);
 
             }
         }
     }, [open]);
-    console.log("pedidos", pedidos)
     const resumen = {
         pendientes: pedidos.filter((p: any) => p.estado === "pendiente").length,
         entregados: pedidos.filter((p: any) => p.estado === "entregado").length,
