@@ -14,7 +14,7 @@ import { usePedido } from "../context/orderContext";
 import { useState } from "react";
 import { pedidoService } from "../../services/pedidos/pedidosServices";
 import { showNotification } from "../buttons/notify";
-import { emailService } from "@/services/emailServices/emailServices";
+//import { emailService } from "@/services/emailServices/emailServices";
 
 export const RightPanel = () => {
     const { user, logout } = useAuth();
@@ -51,12 +51,12 @@ export const RightPanel = () => {
             };
 
             const crearPedi = await pedidoService.create(pedidoFinal);
-            await emailService.enviarCorreoBienvenida({
+           /* await emailService.enviarCorreoBienvenida({
                 correo: user.user.correo,
                 nombre: user.user.nombre,
                 pedido: pedidoFinal
 
-            });
+            });*/
 
             console.log("pedido", crearPedi);
 
@@ -92,18 +92,11 @@ export const RightPanel = () => {
 
             {/* Balance */}
             <section className="mb-6">
-                <h4 className="font-semibold text-gray-700 mb-2">Your Balance</h4>
+                <h4 className="font-semibold text-gray-700 mb-2">Tu Balance</h4>
                 <div className="bg-yellow-400 rounded-xl p-4 text-white mb-3">
                     <p className="text-sm">Balance</p>
                     <h2 className="text-2xl font-bold">$12.000</h2>
-                    <div className="flex gap-2 mt-3">
-                        <button className="bg-white text-yellow-500 text-xs px-3 py-1 rounded-md font-medium flex-1">
-                            Top Up
-                        </button>
-                        <button className="bg-white text-yellow-500 text-xs px-3 py-1 rounded-md font-medium flex-1">
-                            Transfer
-                        </button>
-                    </div>
+                    
                 </div>
             </section>
 
@@ -245,7 +238,7 @@ export const RightPanel = () => {
                             ✕
                         </button>
 
-                        <h2 className="text-2xl font-bold text-gray-900 mb-6">You're almost there!</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-6">¡Estás muy cerca!</h2>
 
                         {/* Información del Pedido */}
                         <div className="text-sm text-gray-700 space-y-1 mb-6">
@@ -312,13 +305,12 @@ export const RightPanel = () => {
 
                         {/* Total */}
                         <div className="text-right mb-6">
-                            <p className="text-sm text-gray-600">Shipping: <strong className="text-black">Free</strong></p>
                             <p className="text-lg font-bold text-gray-900">Total: ${pedido.total.toFixed(2)}</p>
                         </div>
 
                         {/* Método de pago */}
                         <div className="mb-6 space-y-4">
-                            <p className="text-sm font-semibold text-gray-800">Payment Method</p>
+                            <p className="text-sm font-semibold text-gray-800">Metodo de pago</p>
                             <div className="flex items-center gap-4">
                                 <label className="flex items-center gap-2 text-sm text-gray-700">
                                     <input type="radio" name="payment" defaultChecked className="accent-purple-600" />
@@ -369,7 +361,7 @@ export const RightPanel = () => {
                             onClick={finalizarPedido}
                             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm py-3 rounded-full transition"
                         >
-                            Check Out
+                            Pagar
                         </button>
                     </div>
                 </div>

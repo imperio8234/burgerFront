@@ -4,6 +4,7 @@ import { LogIn, X} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { userService } from "../../services/user/userServices";
 import { useAuth } from "../context/AuthContext";
+import { showNotification } from "./notify";
 
 
 type AuthForm = {
@@ -39,7 +40,7 @@ export const AuthButton = () => {
       if (tab === "login") {
        const user = await userService.login(data.correo, data.contrasena);
         login(user)
-        alert("Sesión iniciada correctamente");
+        showNotification( "success","Sesión iniciada correctamente");
       } else {
         await userService.register({
           nombre: data.nombre!,
@@ -48,7 +49,7 @@ export const AuthButton = () => {
           rol: data.rol!,
           foto: data.foto,
         });
-        alert("Usuario registrado correctamente");
+        showNotification("success","Usuario registrado correctamente");
       }
       closeModal();
     } catch (error: any) {
