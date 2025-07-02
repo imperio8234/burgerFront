@@ -1,11 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import {
-    LayoutDashboard,
     ShoppingCart,
-    Heart,
-    MessageCircle,
     Clock,
-    FileText,
     Settings,
     PlusCircle
 } from "lucide-react";
