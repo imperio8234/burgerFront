@@ -18,7 +18,7 @@ export const Sidebar = () => {
     const rol = user?.user?.rol;
 
     return (
-        <aside className="w-72 h-screen bg-white shadow-md p-6 flex flex-col justify-between">
+        <aside className="md:w-72 w-full  md:h-screen h-44 bg-white shadow-md p-6 flex flex-col justify-between">
             {/* Logo */}
             <div>
                 <h1 className="text-2xl font-bold text-gray-800 mb-10">
@@ -26,7 +26,7 @@ export const Sidebar = () => {
                 </h1>
 
                 {/* Menu */}
-                <nav className="flex flex-col gap-4 text-gray-600 text-sm">
+                <nav className="flex md:flex-col flex-row gap-4 text-gray-600 text-sm">
                     {/*<SidebarItem
                         icon={<LayoutDashboard size={18} />}
                         label="Dashboard"

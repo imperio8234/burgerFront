@@ -17,7 +17,7 @@ export const Home = () => {
 
 
   return (
-    <div className="flex w-full h-screen text-gray-800 font-sans">
+    <div className="flex w-full h-screen text-gray-800 font-sans md:flex-row flex-col">
       {/* Sidebar */}
      <Sidebar />
 

@@ -6,6 +6,7 @@ import { AuthButton } from "../buttons/AuthButton";
 import { productoService, type Producto } from "../../services/productos/productoService";
 import { usePedido } from "../context/orderContext";
 import { adicionesService, type Adicion } from "../../services/adiciones/adicionesServices";
+import { generarCodigoVerificacion } from "@/util/util";
 
 export const MainContent = () => {
     const { user } = useAuth();
@@ -45,8 +46,9 @@ export const MainContent = () => {
 
     const createPedido = () => {
         if (!pedido) {
+            const numeroPedi = generarCodigoVerificacion();
             setPedido({
-                numeroPedido: "223",
+                numeroPedido: numeroPedi,
                 fecha: "string",
                 total: 3,
                 estado: "pendiente",

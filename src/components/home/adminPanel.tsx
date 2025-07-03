@@ -217,7 +217,7 @@ export const AdminPanel = () => {
                 >
                     <Users className="w-6 h-6 mb-1" />
                     <span>Usuarios</span>
-                    <span className="text-xs"> en stock</span>
+                    
                 </button>
             </div>
 
